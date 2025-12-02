@@ -9,21 +9,18 @@ class HTMLNode:
     def to_html(self):
         raise NotImplementedError("Child class did not impliment it")
 
-    # maybe refactor 
+
     def props_to_html(self):
-        if self.prop is None:
+        if self.props is None:
             return ""
 
         output_str = ""
 
-        for key, value in self.props:
-            if len(self.props) == 1:
-                return f"{key}={value}"
-            
-            output_str += f"{key}={value} "
+        for key, value in self.props.items():            
+            output_str += f'{key}="{value}" '
 
-        return output_str
+        return output_str.strip()
     
 
     def __repr__(self):
-        return f"HTMLNode({self.tag}, {self.value}, {self.children}, {self.props})"
+        return f"HTMLNode({self.tag}, {self.value}, children: {self.children}, {self.props})"
