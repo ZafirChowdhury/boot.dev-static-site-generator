@@ -11,7 +11,7 @@ class HTMLNode:
 
 
     def props_to_html(self):
-        if self.props is None:
+        if not self.props:
             return ""
 
         output_str = ""
