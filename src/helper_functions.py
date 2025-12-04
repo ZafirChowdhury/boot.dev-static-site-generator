@@ -1,4 +1,4 @@
-from textnode import TextType
+from textnode import TextType, TextNode
 from leafnode import LeafNode
 
 def text_node_to_html_node(text_node):
@@ -25,3 +25,31 @@ def text_node_to_html_node(text_node):
         return LeafNode(tag="img", value="", props=props)
 
     raise Exception("Invalid TextType!")
+
+
+def split_nodes_delimiter(old_nodes, delimiter, text_type):
+    new_nodes = []
+
+    for node in old_nodes:
+        if node.text_type != TextType.TEXT:
+            new_nodes.append(node)
+            continue
+            
+        nodes = []
+        parts = node.text.split(delimiter)
+        if len(parts) % 2 == 0:
+            raise ValueError("Invalid markdown, formatted section is not closed")
+        
+        for i in range(len(parts)):
+            if parts[i] == "":
+                continue
+
+            if i % 2 != 0:
+                nodes.append(TextNode(parts[i], text_type))
+
+            else:
+                nodes.append(TextNode(parts[i], TextType.TEXT))
+
+        new_nodes.extend(nodes)
+
+    return new_nodes
